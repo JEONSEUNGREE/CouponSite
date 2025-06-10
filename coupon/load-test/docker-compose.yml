@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  master:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/locustfile-hello.py --master -H http://host.docker.internal:8080
+
+  worker:
+    image: locustio/locust
+    volumes:
+      - ./:/mnt/locust
+    command: -f /mnt/locust/locustfile-hello.py --worker --master-host master
+
+
+# 워커의 cpu 사용량이 높은경우 rps를 신뢰할수없다 이유는 워커의 cpu사용량이 100이상 올라가면 api서버의 부하가 아닌
+# 워커의 부하로 일정하게 요청한만큼 부하를 걸지 못하기 때문이다 docker-compose up --scale worker=3 같은 커맨드로 옵션으로
+# 워커를 추가해서 부하를 걸수있다.
+
+# 톰캣의 기본 스레드풀은 200이므로 이 한도내에서 많은 트래픽이 몰려오면 처리하기 힘들다.
+# rps가 늘어난다해도 10초뒤에 발생하는 로커스트 타임아웃 설정으로 증가한다고 볼 수 있다.
