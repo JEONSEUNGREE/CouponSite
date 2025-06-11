@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.massive.couponapi.dto.CouponIssueRequestDto;
+import com.massive.couponcore.component.DistributeLockExecutor;
 import com.massive.couponcore.service.CouponIssueService;
 
 import lombok.RequiredArgsConstructor;
@@ -15,11 +16,21 @@ public class CouponIssueRequestService {
 
 	private final CouponIssueService couponIssueService;
 
+	private final DistributeLockExecutor distributeLockExecutor;
+
 	private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
 	public void issueRequestV1(CouponIssueRequestDto requestDto) {
 		couponIssueService.issue(requestDto.couponId(), requestDto.userId());
 		log.info("쿠폰 발급 완료. couponId: %s, userId: %s".formatted(requestDto.couponId(), requestDto.userId()));
 	}
+
+	public void issueRequestV2(CouponIssueRequestDto requestDto) {
+		distributeLockExecutor.execute("lock_" + requestDto.couponId(), 10000, 10000,
+			() -> couponIssueService.issue(requestDto.couponId(), requestDto.userId()));
+
+		log.info("쿠폰 발급 완료. couponId: %s, userId: %s".formatted(requestDto.couponId(), requestDto.userId()));
+	}
+
 
 }

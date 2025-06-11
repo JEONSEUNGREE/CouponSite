@@ -26,25 +26,9 @@ public class CouponIssueService {
 
 	@Transactional
 	public void issue(long couponId, long userId) {
-		// 단일 어플리케이션 가정하여 사용할때
-		// 트랜잭션 시작 aop
-		// 락 획득
-		// synchronized (this) {
-		// 			Coupon coupon = findCoupon(couponId);
-		// 			coupon.issue();
-		// 			saveCouponIssue(couponId, userId);
-		// 		}
-		// 락 반납
-		// 커밋
-		// 트랜잭션 끝
-		// 1번 요청이 락을 반납하고 트랜잭션을 커밋하기때문에 그전에 요청이 온 2번째가 커밋전 데이터를 읽어버림
-		// 따라서 락을 거는 위치가 중요하다. 트랜잭션 시작전에 락을 거는 순서로 가야한다.
-		// 따라서 상위 메서드에 락을 걸어야한다.
-		synchronized (this) {
 			Coupon coupon = findCoupon(couponId);
 			coupon.issue();
 			saveCouponIssue(couponId, userId);
-		}
 	}
 
 	@Transactional(readOnly = true)

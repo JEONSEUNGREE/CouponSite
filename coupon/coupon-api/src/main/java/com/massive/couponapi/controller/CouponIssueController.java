@@ -18,7 +18,7 @@ public class CouponIssueController {
 
 	@PostMapping("/v1/issue")
 	public CouponIssueResponseDto issueV1(@RequestBody CouponIssueRequestDto body) {
-		couponIssueRequestService.issueRequestV1(body);
+		couponIssueRequestService.issueRequestV2(body);
 		return new CouponIssueResponseDto(true, null);
 	}
 
