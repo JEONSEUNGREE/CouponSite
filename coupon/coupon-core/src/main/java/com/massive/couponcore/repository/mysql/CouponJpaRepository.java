@@ -1,4 +1,8 @@
 package com.massive.couponcore.repository.mysql;
 
-public class CouponJpaRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.massive.couponcore.model.Coupon;
+
+public interface CouponJpaRepository extends JpaRepository<Coupon, Long> {
 }
