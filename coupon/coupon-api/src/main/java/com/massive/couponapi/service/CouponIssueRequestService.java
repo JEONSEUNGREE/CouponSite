@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.massive.couponapi.dto.CouponIssueRequestDto;
 import com.massive.couponcore.component.DistributeLockExecutor;
 import com.massive.couponcore.service.AsyncCouponIssueServiceV1;
+import com.massive.couponcore.service.AsyncCouponIssueServiceV2;
 import com.massive.couponcore.service.CouponIssueService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,8 @@ public class CouponIssueRequestService {
 	private final DistributeLockExecutor distributeLockExecutor;
 
 	private final AsyncCouponIssueServiceV1 asyncCouponIssueServiceV1;
+
+	private final AsyncCouponIssueServiceV2 asyncCouponIssueServiceV2;
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
@@ -38,6 +41,11 @@ public class CouponIssueRequestService {
 
 	public void asyncIssueRequestV1(CouponIssueRequestDto requestDto) {
 		asyncCouponIssueServiceV1.issue(requestDto.couponId(), requestDto.userId());
+	}
+
+
+	public void asyncIssueRequestV2(CouponIssueRequestDto requestDto) {
+		asyncCouponIssueServiceV2.issue(requestDto.couponId(), requestDto.userId());
 	}
 
 }
