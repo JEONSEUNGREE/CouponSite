@@ -25,12 +25,12 @@ public class CouponCacheService {
 		return getCouponCache(couponId);
 	}
 
-	@Cacheable(cacheNames = "coupon")
+	@Cacheable(cacheNames = "coupon", cacheManager = "localCacheManager")
 	public CouponRedisEntity getCouponLocalCache(long couponId) {
 		return proxy().getCouponCache(couponId);
 	}
 
-	@CachePut(cacheNames = "coupon")
+	@CachePut(cacheNames = "coupon", cacheManager = "localCacheManager")
 	public CouponRedisEntity putCouponLocalCache(long couponId) {
 		return getCouponLocalCache(couponId);
 	}
