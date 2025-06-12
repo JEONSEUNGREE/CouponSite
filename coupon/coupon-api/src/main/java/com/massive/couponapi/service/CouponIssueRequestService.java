@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.massive.couponapi.dto.CouponIssueRequestDto;
 import com.massive.couponcore.component.DistributeLockExecutor;
+import com.massive.couponcore.service.AsyncCouponIssueServiceV1;
 import com.massive.couponcore.service.CouponIssueService;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ public class CouponIssueRequestService {
 	private final CouponIssueService couponIssueService;
 
 	private final DistributeLockExecutor distributeLockExecutor;
+
+	private final AsyncCouponIssueServiceV1 asyncCouponIssueServiceV1;
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
